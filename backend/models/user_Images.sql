@@ -1,0 +1,7 @@
+CREATE TABLE Images (
+    ImageID INT PRIMARY KEY AUTO_INCREMENT,
+    ImageSrc VARCHAR(255),
+    UserID INT,
+    FOREIGN KEY (UserID) REFERENCES Users(UserID),
+    CreatedAt TIMESTAMP NOT NULL DEFAULT now()
+);
