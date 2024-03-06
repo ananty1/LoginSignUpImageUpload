@@ -12,12 +12,13 @@ const pool = mysql
     user: process.env.DB_USER,
     password: process.env.DB_PASSWORD,
     database: process.env.DB_NAME,
+    port:process.env.DB_PORT
   })
   .promise();
-
-
+  
 export async function SignUpUser(userData) {
   
+  console.log("No problme hee.")
   const existingUser = await pool.query(
     "SELECT * FROM Users WHERE UserName = ? OR Email = ?",
     [userData.UserName,userData.Email]
@@ -88,6 +89,7 @@ export async function UploadImages(ImageSrc,UserID) {
     return row[0];
   }
   catch (error){
+    console.log("Error:", error);
     return -1;
   }
   

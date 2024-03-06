@@ -1,5 +1,8 @@
 import express from 'express';
 import multer from "multer";
+import { config } from "dotenv";
+
+config();
 import {checkLoginUser,SignUpUser,UploadImages,VerifyToken} from '../database/database.js'
 const router = express.Router();
 import path from 'path';
@@ -11,7 +14,9 @@ router.get('/',(req,res)=>{
 router.post("/login", async (req, res) => {
   // console.log("we have got body as ",req.body);
   try{
+    
     const result = await checkLoginUser(req.body.username, req.body.password);
+    // console.log("Eth result: ",result);
     return res.status(200).send(result);
   }
   catch(error){
@@ -58,7 +63,7 @@ const upload = multer({
 
 router.post('/upload',upload.single("image"), async (req, res) => {
   try{
-    const imgsrc = 'http://127.0.0.1:3000/images/' + req.file.filename;
+    const imgsrc = `${process.env.REACT_APP_URL}images/` + req.file.filename;
     var userID =req.body.userID
     const result = await UploadImages(imgsrc,userID);
     if(result===-1) return res.status(400).send("Bad Request");
