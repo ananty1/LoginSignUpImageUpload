@@ -17,7 +17,7 @@ function FileUpload() {
           return;
         }
         
-        const response = await axios.post("http://localhost:5000/verify", { token: authToken });
+        const response = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/verify`, { token: authToken });
         console.log("We got the data",response.data); // Assuming the server responds with some data upon successful verification
         setUserID(response.data['userID']);
       } catch (error) {
@@ -44,7 +44,7 @@ function FileUpload() {
     formData.append("userID", userID);
 
     try{
-      const res = await axios.post('http://localhost:5000/upload', formData);
+      const res = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/upload`, formData);
       console.log(res);
       setImageURL(URL.createObjectURL(file)); // Display uploaded file
     }catch(error){

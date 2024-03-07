@@ -2,6 +2,7 @@ import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
+
 function LoginForm() {
   const navigate = useNavigate();
   const [credentials, setCredentials] = useState({
@@ -11,6 +12,8 @@ function LoginForm() {
 
 
   useEffect(() => {
+    const api_key = process.env.REACT_APP_BACKEND_URL;
+    console.log("Write here",api_key,process.env.REACT_APP_BACKEND_URL);
     const verifyToken = async () => {
       try {
         const authToken = localStorage.getItem("authtoken");
@@ -20,7 +23,8 @@ function LoginForm() {
           return;
         }
         
-        const response = await axios.post("http://localhost:5000/verify", { token: authToken });
+        
+        const response = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/verify`, { token: authToken });
         console.log("We got the data", response.data); // Assuming the server responds with some data upon successful verification
         navigate("/");
       } catch (error) {
@@ -38,7 +42,7 @@ function LoginForm() {
     console.log("Button clicked", credentials);
 
     try{
-      const response = await axios.post("http://localhost:5000/login",credentials);
+      const response = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/login`,credentials);
       if(response.status===200 & response.data.status===1){
         localStorage.setItem("authtoken",response.data.authToken);
         alert(response.data.content);

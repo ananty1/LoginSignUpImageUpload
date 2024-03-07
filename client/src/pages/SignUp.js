@@ -16,7 +16,7 @@ function SignUpForm() {
     // console.log("Button clicked", credentials);
 
     try {
-      const response = await axios.post("http://localhost:5000/signup", credentials);
+      const response = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/signup`, credentials);
       // console.log("Server respond with",response.data);
 
       if (response.status === 200) {
